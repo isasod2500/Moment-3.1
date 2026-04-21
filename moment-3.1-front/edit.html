@@ -25,18 +25,22 @@
 
     </ul>
     <form id="form" method="post">
-      <label for="companyname">Företag:</label>
-      <input type="text" name="companyname" id="companyname">
+      <label for="company">Företag:</label>
+      <input type="text" name="company" id="company" autocomplete="on">
       <label for="jobtitle">Befattningsroll:</label>
-      <input type="text" name="jobtitle" id="jobtitle" placeholder="IT-support...">
-      <label for="jobLocation">Ort:</label>
-      <input type="text" name="jobLocation" id="jobLocation">
-      <label for="startdate">Startdatum:</label>
-      <input type="date" id="startdate" name="startdate">
-      <label for="enddate">Slutdatum:</label>
-      <input type="date" id="enddate" name="enddate">
+      <input type="text" name="jobtitle" id="jobtitle" placeholder="Kommunikationansvarig...">
+      <label for="joblocation">Ort:</label>
+      <input type="text" name="joblocation" id="joblocation">
+      <label for="workfromwhere">Arbetsform:</label>
+      <select name="workfromwhere" id="workfromwhere">
+        <option value="Platsarbete">På plats</option>
+        <option value="Distansarbete">Distans</option>
+        <option value="Plats- och distans">Varierande</option>
+      </select>
+      <label for="workinghours">Anställningsgrad (%):</label>
+      <input type="text" name="workinghours" id="workinghours" placeholder="25%, 75% etc">
       <label for="description">Rollbeskrivning:</label>
-      <textarea id="description" name="description" placeholder="Supporterade slutanvändare på kontor och ute i fält med mjukvaru- och hårdvaruproblem"></textarea>
+      <textarea id="description" name="description" placeholder="Planerade och stod för nyheter inom organisationen och för PR"></textarea>
       <input type="submit" id="sendUpdate" value="Skicka till CV">
     </form>
   </section>
