@@ -10,7 +10,6 @@ async function fetchData() {
     const getData = await fetch(`https://mongodb-lab3.onrender.com/api/workexperience`)
     const db = await getData.json()
 
-    let id = db._id
     let company = db.company
     let jobtitle = db.jobtitle
     let joblocation = db.joblocation
@@ -33,7 +32,7 @@ async function fetchData() {
       let workfromwhere = entry.workfromwhere
       let workinghours = entry.workinghours
       let listDate = document.createElement("h3")
-      listDate.innerHTML = `${workfromwhere} -> ${workinghours}`
+      listDate.innerHTML = `${workfromwhere}, ${workinghours}`
 
       let listDescription = document.createElement("p")
 
@@ -65,7 +64,7 @@ async function fetchData() {
       listContainer.appendChild(listItem)
 
       updateBtn.addEventListener("click", () => {
-        updatePage(entry.id)
+        updatePage(entry._id)
       })
       deleteBtn.addEventListener("click", deleteQuery)
 

@@ -1,9 +1,101 @@
-export function setupCounter(element) {
-  let counter = 0
-  const setCounter = (count) => {
-    counter = count
-    element.innerHTML = `Count is ${counter}`
-  }
-  element.addEventListener('click', () => setCounter(counter + 1))
-  setCounter(0)
+"use strict";
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    document.getElementById("submitBtn").addEventListener("click", sendQuery)
+})
+
+//Funktion som POSTar formulärdata
+async function sendQuery(event) {
+    //Stoppa sidan att ladda om vid submit
+    event.preventDefault()
+
+    //Tom error array för felmeddelanden.
+    const errors = [];
+    errors.length = 0;
+    errorList.innerHTML = ""
+
+    //Skapande av variabler för HTML DOM
+    let company = document.getElementById("company").value
+    let jobtitle = document.getElementById("jobtitle").value
+    let joblocation = document.getElementById("joblocation").value
+    let workfromwhere = document.getElementById("workfromwhere").value
+    let workinghours = document.getElementById("workinghours").value
+    let description = document.getElementById("description").value
+
+    //Skapar objekt för att skicka till APIn
+    let work = {
+        company: company,
+        jobtitle: jobtitle,
+        joblocation: joblocation,
+        workfromwhere: workfromwhere,
+        workinghours: workinghours,
+        description: description
+    }
+    //Dubbelkollar i fall det som skrivits redan finns i databasen
+    let result = await fetch(`https://mongodb-lab3.onrender.com/api/workexperience/`, {
+        headers: {
+            "Content-Type": "application/json"
+        }
+
+    })
+    let dbResult = await result.json()
+
+    if(jobtitle === "") {
+      errors.push(`Befattning måste anges`)
+    }
+
+    if(company === "") {
+      errors.push(`Företag måste anges. Vid sekretess skriv 'NDA'`)
+    }
+
+    if(workinghours === "") {
+      errors.push(`Arbetstimmar måste anges`)
+    }
+    //validerare för entries. En anställd kan ha samma roll på samma företag, men inte flera gånger under samma tidsperiod.
+    Object.values(dbResult).forEach(entry => {
+        if (company === entry.company && 
+            jobtitle === entry.jobtitle) {
+            errors.push(`Angiven befattning finns redan registrerad på arbetsplats`)
+
+            if(company === entry.company) {
+                document.getElementById("company").value = ""
+            }
+
+            if(jobtitle === entry.jobtitle) {
+                document.getElementById("jobtitle").value = ""
+            }
+
+            return;
+        }
+
+    })
+    //Om errors har fler än ett entry, fyll errorlistan.
+    if (errors.length > 0) {
+        let errorList = document.getElementById("errorList")
+        errors.forEach(error => {
+            let errorLine = document.createElement("li")
+            errorLine.innerHTML = error
+
+            errorList.appendChild(errorLine)
+        })
+
+    }
+
+    //I fall inga fel finns, skicka till POST
+    if (errors.length === 0) {
+
+        let response = await fetch(`https://mongodb-lab3.onrender.com/api/workexperience/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(work)
+        });
+
+        document.getElementById("form").reset()
+
+        document.getElementById("success").innerHTML = `Post skapad!`
+    }
+
 }
