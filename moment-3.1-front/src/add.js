@@ -12,6 +12,8 @@ async function sendQuery(event) {
 
     //Tom error array för felmeddelanden.
     const errors = [];
+
+    let errorList = document.getElementById("errorList")
     errors.length = 0;
     errorList.innerHTML = ""
 
@@ -23,14 +25,38 @@ async function sendQuery(event) {
     let workinghours = document.getElementById("workinghours").value
     let description = document.getElementById("description").value
 
-    //Skapar objekt för att skicka till APIn
+    if(company === "") {
+        errors.push(`Företag måste fyllas i`)
+    }
+
+    if(jobtitle === "") {
+        errors.push(`Befattningsroll måste fyllas i`)
+    }
+
+    if(joblocation === "") {
+        errors.push(`Arbetsort måste fyllas i`)
+    }
+
+    if(workfromwhere === "") {
+        errors.push(`Arbetsform måste fyllas i`)
+    }
+
+    if(workinghours === "") {
+        errors.push(`Arbetsgrad måste fyllas i`)
+    }
+
+    if(description === "") {
+        errors.push(`Rollbeskrivning måste fyllas i`)
+    } else {
+            //Skapar objekt för att skicka till APIn
     let work = {
-        company: company,
+        companyname: companyname,
         jobtitle: jobtitle,
-        joblocation: joblocation,
-        workfromwhere: workfromwhere,
-        workinghours: workinghours,
+        jobLocation: jobLocation,
+        startdate: startdate,
+        enddate: enddate,
         description: description
+    }
     }
     //Dubbelkollar i fall det som skrivits redan finns i databasen
     let result = await fetch(`https://mongodb-lab3.onrender.com/api/workexperience/`, {
@@ -41,28 +67,28 @@ async function sendQuery(event) {
     })
     let dbResult = await result.json()
 
-    if(jobtitle === "") {
-      errors.push(`Befattning måste anges`)
+    if (jobtitle === "") {
+        errors.push(`Befattning måste anges`)
     }
 
-    if(company === "") {
-      errors.push(`Företag måste anges. Vid sekretess skriv 'NDA'`)
+    if (company === "") {
+        errors.push(`Företag måste anges. Vid sekretess skriv 'NDA'`)
     }
 
-    if(workinghours === "") {
-      errors.push(`Arbetstimmar måste anges`)
+    if (workinghours === "") {
+        errors.push(`Arbetstimmar måste anges`)
     }
     //validerare för entries. En anställd kan ha samma roll på samma företag, men inte flera gånger under samma tidsperiod.
     Object.values(dbResult).forEach(entry => {
-        if (company === entry.company && 
+        if (company === entry.company &&
             jobtitle === entry.jobtitle) {
             errors.push(`Angiven befattning finns redan registrerad på arbetsplats`)
 
-            if(company === entry.company) {
+            if (company === entry.company) {
                 document.getElementById("company").value = ""
             }
 
-            if(jobtitle === entry.jobtitle) {
+            if (jobtitle === entry.jobtitle) {
                 document.getElementById("jobtitle").value = ""
             }
 
@@ -72,7 +98,7 @@ async function sendQuery(event) {
     })
     //Om errors har fler än ett entry, fyll errorlistan.
     if (errors.length > 0) {
-        let errorList = document.getElementById("errorList")
+
         errors.forEach(error => {
             let errorLine = document.createElement("li")
             errorLine.innerHTML = error
