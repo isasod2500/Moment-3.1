@@ -43,6 +43,10 @@ async function updateQuery() {
     //Tom error array för felmeddelanden.
     const errors = [];
 
+    let errorList = document.getElementById("errorList")
+    errors.length = 0;
+    errorList.innerHTML = ""
+
     //Skapande av variabler för HTML DOM
     let company = document.getElementById("company").value
     let jobtitle = document.getElementById("jobtitle").value
@@ -51,17 +55,40 @@ async function updateQuery() {
     let workinghours = document.getElementById("workinghours").value
     let description = document.getElementById("description").value
 
-    //Skapar objekt för att skicka till APIn
-    let work = {
-        company: company,
-        jobtitle: jobtitle,
-        joblocation: joblocation,
-        workfromwhere: workfromwhere,
-        workinghours: workinghours,
-        description: description
+    if(company === "") {
+        errors.push(`Företag måste fyllas i`)
     }
 
-    console.log(work)
+    if(jobtitle === "") {
+        errors.push(`Befattningsroll måste fyllas i`)
+    }
+
+    if(joblocation === "") {
+        errors.push(`Arbetsort måste fyllas i`)
+    }
+
+    if(workfromwhere === "") {
+        errors.push(`Arbetsform måste fyllas i`)
+    }
+
+    if(workinghours === "") {
+        errors.push(`Arbetsgrad måste fyllas i`)
+    }
+
+    if(description === "") {
+        errors.push(`Rollbeskrivning måste fyllas i`)
+    } else {
+            //Skapar objekt för att skicka till APIn
+    let work = {
+        companyname: companyname,
+        jobtitle: jobtitle,
+        jobLocation: jobLocation,
+        startdate: startdate,
+        enddate: enddate,
+        description: description
+    }
+    }
+
     //Stoppar dubbletter
     let result = await fetch(`https://mongodb-lab3.onrender.com/api/workexperience/${id}`, {
         headers: {
@@ -90,7 +117,6 @@ async function updateQuery() {
     })
     //Om errors har fler än ett entry, fyll errorlistan.
     if (errors.length > 0) {
-        let errorList = document.getElementById("errorList")
         errors.forEach(error => {
             let errorLine = document.createElement("li")
             errorLine.innerHTML = error
