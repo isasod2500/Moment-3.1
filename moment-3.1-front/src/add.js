@@ -53,8 +53,8 @@ async function sendQuery(event) {
         company: company,
         jobtitle: jobtitle,
         joblocation: joblocation,
-        startdate: startdate,
-        enddate: enddate,
+        workfromwhere: workfromwhere,
+        workinghours: workinghours,
         description: description
     }
     }
