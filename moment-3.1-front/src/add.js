@@ -47,16 +47,6 @@ async function sendQuery(event) {
 
     if(description === "") {
         errors.push(`Rollbeskrivning måste fyllas i`)
-    } else {
-            //Skapar objekt för att skicka till APIn
-    let work = {
-        company: company,
-        jobtitle: jobtitle,
-        joblocation: joblocation,
-        workfromwhere: workfromwhere,
-        workinghours: workinghours,
-        description: description
-    }
     }
     //Dubbelkollar i fall det som skrivits redan finns i databasen
     let result = await fetch(`https://mongodb-lab3.onrender.com/api/workexperience/`, {
@@ -110,6 +100,18 @@ async function sendQuery(event) {
 
     //I fall inga fel finns, skicka till POST
     if (errors.length === 0) {
+        
+     //Skapar objekt för att skicka till APIn
+    let work = {
+        company: company,
+        jobtitle: jobtitle,
+        joblocation: joblocation,
+        workfromwhere: workfromwhere,
+        workinghours: workinghours,
+        description: description
+    }
+
+        
 
         let response = await fetch(`https://mongodb-lab3.onrender.com/api/workexperience/`, {
             method: "POST",
