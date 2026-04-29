@@ -77,16 +77,6 @@ async function updateQuery() {
 
     if(description === "") {
         errors.push(`Rollbeskrivning måste fyllas i`)
-    } else {
-            //Skapar objekt för att skicka till APIn
-    let work = {
-        company: company,
-        jobtitle: jobtitle,
-        joblocation: joblocation,
-        workfromwhere: workfromwhere,
-        workinghours: workinghours,
-        description: description
-    }
     }
 
     //Stoppar dubbletter
@@ -128,6 +118,16 @@ async function updateQuery() {
 
         //I fall inga fel finns, skicka till PUT
     if (errors.length === 0) {
+
+    //Skapar objekt för att skicka till APIn
+    let work = {
+        company: company,
+        jobtitle: jobtitle,
+        joblocation: joblocation,
+        workfromwhere: workfromwhere,
+        workinghours: workinghours,
+        description: description
+    }
 
         let response = await fetch(`https://mongodb-lab3.onrender.com/api/workexperience/${id}`, {
             method: "PUT",
