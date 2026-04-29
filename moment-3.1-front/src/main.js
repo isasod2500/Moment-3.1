@@ -79,8 +79,8 @@ function updatePage(id) {
   window.location=`./edit.html?id=${id}`
 }
 
-async function deleteQuery() {
-  let id = document.querySelector(".deleteBtn").value
+async function deleteQuery(event) {
+  let id = event.target.value
   try {
     const deleteDatabase = await fetch(`https://mongodb-lab3.onrender.com/api/workexperience/${id}`, {
       method: "DELETE",
@@ -91,7 +91,6 @@ async function deleteQuery() {
 
     const data = await deleteDatabase.json();
 
-    console.log(data)
     document.getElementById("listContainer").innerHTML = ""
     fetchData()
   } catch (err) {
