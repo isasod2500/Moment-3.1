@@ -80,7 +80,7 @@ async function updateQuery() {
     } else {
             //Skapar objekt för att skicka till APIn
     let work = {
-        companyname: companyname,
+        company: company,
         jobtitle: jobtitle,
         jobLocation: jobLocation,
         startdate: startdate,
