@@ -52,7 +52,7 @@ async function sendQuery(event) {
     let work = {
         company: company,
         jobtitle: jobtitle,
-        jobLocation: jobLocation,
+        joblocation: joblocation,
         startdate: startdate,
         enddate: enddate,
         description: description
