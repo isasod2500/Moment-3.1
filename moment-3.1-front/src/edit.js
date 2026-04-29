@@ -83,8 +83,8 @@ async function updateQuery() {
         company: company,
         jobtitle: jobtitle,
         joblocation: joblocation,
-        startdate: startdate,
-        enddate: enddate,
+        workfromwhere: workfromwhere,
+        workinghours: workinghours,
         description: description
     }
     }
